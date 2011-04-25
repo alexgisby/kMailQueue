@@ -10,6 +10,9 @@
 
 class Kohana_Model_MailQueue extends ORM
 {
+	protected $_table_name = 'mailqueue';
+	
+	
 	/**
 	 * Adds an email to the Queue
 	 *
@@ -27,14 +30,22 @@ class Kohana_Model_MailQueue extends ORM
 		
 		if(is_array($recipient) && count($recipient) == 2)
 		{
-			$item->recipient_name 	= $recipient[0];
-			$item->recipient_email	= $recipient[1];
+			$item->recipient_email	= $recipient[0];
+			$item->recipient_name 	= $recipient[1];
+		}
+		else
+		{
+			$item->recipient_email = $recipient;
 		}
 		
 		if(is_array($sender) && count($sender) == 2)
 		{
-			$item->sender_name 	= $sender[0];
-			$item->sender_email	= $sender[1];
+			$item->sender_email	= $sender[0];
+			$item->sender_name 	= $sender[1];
+		}
+		else
+		{
+			$item->sender_email = $sender;
 		}
 		
 		$item->subject 	= $subject;
