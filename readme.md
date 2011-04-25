@@ -77,7 +77,6 @@ Check out the API browser in the Userguide module. The class is fully documented
 
 ## Known Issues
 
-- Being developed under Kohana 3.0.10 so not quite sure on 3.1 compatibility. Finished module will be compatible with both.
 - It makes sense to split off the email body into a separate table to improve performance. Will do this soon.
 
 ## Acknowledgements;
