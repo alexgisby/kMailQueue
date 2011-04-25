@@ -11,7 +11,8 @@ Simple Mail Queue for Kohana 3.x which utilises a database table, connected with
 ## Features
 
 - Send out emails in batches (batch size configurable)
-- Validates emails on entry
+- Can assign a priority to outbound emails.
+- Validates email addresses on entry
 - Kills emails after a defined number of fails
 - Restrict access to batch via
 	- Passphrase
