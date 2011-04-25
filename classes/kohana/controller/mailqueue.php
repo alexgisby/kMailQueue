@@ -15,9 +15,18 @@ class Kohana_Controller_MailQueue extends Controller
 	 */
 	public function action_batch()
 	{
-		$stats = MailQueue::batch_send();
-		echo 'Sent ' . $stats['sent'] . ' emails' . "\n";
-		echo 'Failed ' . $stats['failed'] . ' emails' . "\n";
+		$passphrase = $this->request->param('id');
+		if($passphrase != kohana::config('mailqueue.passphrase'))
+		{
+			$this->request->status 		= 403;
+			$this->request->response 	= 'Not Allowed';
+		}
+		else
+		{
+			$stats = MailQueue::batch_send();
+			$this->request->response .= 'Sent ' . $stats['sent'] . ' emails' . "\n";
+			$this->request->response .= 'Failed ' . $stats['failed'] . ' emails' . "\n";
+		}
 	}
 	
 	

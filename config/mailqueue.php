@@ -15,4 +15,14 @@ return array(
 	 */
 	'max_attempts'	=> 5,
 	
+	
+	/**
+	 * Passphrase. This is a simple little password you can provide at the end of the cron string to make sure
+	 * only you can access the cron.
+	 *
+	 * So with a passphrase of 'GLaDOS', your url would look like:
+	 *		yourdomain.com/mailqueue/batch/GLaDOS
+	 */
+	'passphrase'	=> 'GLaDOS',	/************* CHANGE ME *********************/
+	
 );
