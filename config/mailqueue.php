@@ -27,4 +27,13 @@ return array(
 	 */
 	'passphrase'	=> 'GLaDOS',	/************* CHANGE ME *********************/
 	
+	
+	/**
+	 * Allowed IP's. You can set an array of IP's which are the only ones allowed to access the mail queue.
+	 * Helpful to prevent people knackering your server by hitting the queue over and over.
+	 *
+	 * Set to an empty array to disable.
+	 */
+	'allowed_ips'	=> array('127.0.0.1'),
+	
 );

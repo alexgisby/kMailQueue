@@ -15,8 +15,10 @@ class Kohana_Controller_MailQueue extends Controller
 	 */
 	public function action_batch()
 	{
+		// Check they're from an allowed IP;
+		$allowed_ips = kohana::config('mailqueue.allowed_ips');
 		$passphrase = $this->request->param('id');
-		if(kohana::config('mailqueue.passphrase') != null && $passphrase != kohana::config('mailqueue.passphrase'))
+		if((kohana::config('mailqueue.passphrase') != null && $passphrase != kohana::config('mailqueue.passphrase')) || (!empty($allowed_ips) && !in_array(Request::$client_ip, $allowed_ips)))
 		{
 			$this->request->status 		= 403;
 			$this->request->response 	= 'Not Allowed';
