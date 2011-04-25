@@ -15,5 +15,7 @@ CREATE TABLE IF NOT EXISTS `mailqueue` (
   `attempts` smallint(5) unsigned NOT NULL default '0',
   `created` datetime NOT NULL,
   `sent` datetime default NULL,
-  PRIMARY KEY  (`id`)
+  `failed` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `state` (`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
