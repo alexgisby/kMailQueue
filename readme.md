@@ -12,6 +12,10 @@ Simple Mail Queue for Kohana 3.x which utilises a database table, connected with
 
 TBD.
 
+## Known Issues
+
+- Being developed under Kohana 3.0.10 so not quite sure on 3.1 compatibility. Finished module will be compatible with both.
+
 ## Acknowledgements;
 
 For the sender and recipient lengths: http://www.marketingtechblog.com/technology/valid-email-address-length/

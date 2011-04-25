@@ -25,4 +25,45 @@ class Kohana_MailQueue
 		Model_MailQueue::add_to_queue($recipient, $sender, $subject, $body, $priority);
 		return true;
 	}
+	
+	
+	/**
+	 * Send out a batch of emails. The number sent is dependant on config('mailqueue.batch_size')
+	 *
+	 * @return 	int 	The number of emails sent
+	 */
+	public static function batch_send()
+	{
+		$config = kohana::config('mailqueue');
+		
+		$emails_sent = 0;
+		
+		$emails = Model_MailQueue::find_batch($config->batch_size);
+		foreach($emails as $email)
+		{
+			$recipient = $email->recipient_email;
+			if($email->recipient_name != null)
+			{
+				$recipient = array($email->recipient_email, $email->recipient_name);
+			}
+			
+			$sender = $email->sender_email;
+			if($email->sender_name != null)
+			{
+				$sender = array($email->sender_email, $email->sender_email);
+			}
+			
+			if(email::send($recipient, $sender, $email->subject, $email->body, true))
+			{
+				$email->sent();
+				$emails_sent ++;
+			}
+			else
+			{
+				$email->failed();
+			}
+		}
+		
+		return $emails_sent;
+	}
 }

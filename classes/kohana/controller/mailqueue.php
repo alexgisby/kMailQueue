@@ -10,6 +10,19 @@
 
 class Kohana_Controller_MailQueue extends Controller
 {
+	/**
+	 * The action your CRON should be looking at
+	 */
+	public function action_batch()
+	{
+		MailQueue::batch_send();
+		return true;
+	}
+	
+	
+	/**
+	 * Some basic tests and usage examples
+	 */
 	public function action_test()
 	{
 		echo '<h1>Basic Email</h1>';

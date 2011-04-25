@@ -89,4 +89,57 @@ class Kohana_Model_MailQueue extends ORM
 			throw $ex;
 		}
 	}
+	
+	
+	/**
+	 * Gets a batch of emails ready for sending
+	 *
+	 * @param 	int 	Number of emails to send (batch size)
+	 * @return 	ORM		Collection of objects
+	 */
+	public static function find_batch($batch_size)
+	{
+		return ORM::factory('MailQueue')
+						->where('state', '=', 'pending')
+						->order_by('priority', 'DESC')
+						->order_by('created', 'ASC')
+						->limit($batch_size)
+						->find_all();
+	}
+	
+	
+	/**
+	 * Called when an email has been sent
+	 *
+	 * @return 	this
+	 */
+	public function sent()
+	{
+		$this->sent 	= date('Y-m-d H:i:s', time());
+		$this->state	= 'sent';
+		$this->attempts++;
+		$this->save();
+		
+		return $this;
+	}
+	
+	
+	/**
+	 * Called when an email fails. If it's hit the limit of
+	 *
+	 * @return 	this
+	 */
+	public function failed()
+	{
+		$this->attempts ++;
+		
+		if(kohana::config('mailqueue.max_attempts') <= $this->attempts)
+		{
+			$this->state 	= 'failed';
+			$this->failed	= date('Y-m-d H:i:s', time());
+		}
+		
+		$this->save();
+		return $this;
+	}
 }
