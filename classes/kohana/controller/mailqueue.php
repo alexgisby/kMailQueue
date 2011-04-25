@@ -5,7 +5,7 @@
  *
  * @package 	kMailQueue
  * @category  	Controllers
- * @author 		Alex Gisby <alex@solution10.com>
+ * @author 		Alex Gisby <alex@example.com>
  */
 
 class Kohana_Controller_MailQueue extends Controller
@@ -57,8 +57,8 @@ class Kohana_Controller_MailQueue extends Controller
 		echo '<h1>Basic Email</h1>';
 
 		MailQueue::add_to_queue(
-			array('alex@solution10.com', 'Alex'),
-			array('alex@solution10.com', 'Alex'),
+			array('alex@example.com', 'Alex'),
+			array('alex@example.com', 'Alex'),
 			'Mail with both sender and recipient as array',
 			'<p>Welcome to the MailQueue App</p>',
 			10
@@ -67,8 +67,8 @@ class Kohana_Controller_MailQueue extends Controller
 		echo '<p>Added Mail 1</p>';
 
 		MailQueue::add_to_queue(
-			'alex@solution10.com',
-			'alex@solution10.com',
+			'alex@example.com',
+			'alex@example.com',
 			'Mail with strings for recip and sender',
 			'<p>Welcome to the MailQueue App</p>',
 			10
