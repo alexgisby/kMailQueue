@@ -22,6 +22,8 @@ return array(
 	 *
 	 * So with a passphrase of 'GLaDOS', your url would look like:
 	 *		yourdomain.com/mailqueue/batch/GLaDOS
+	 *
+	 * Set to null to disable.
 	 */
 	'passphrase'	=> 'GLaDOS',	/************* CHANGE ME *********************/
 	

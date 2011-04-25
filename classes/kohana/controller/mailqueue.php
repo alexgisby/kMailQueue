@@ -16,7 +16,7 @@ class Kohana_Controller_MailQueue extends Controller
 	public function action_batch()
 	{
 		$passphrase = $this->request->param('id');
-		if($passphrase != kohana::config('mailqueue.passphrase'))
+		if(kohana::config('mailqueue.passphrase') != null && $passphrase != kohana::config('mailqueue.passphrase'))
 		{
 			$this->request->status 		= 403;
 			$this->request->response 	= 'Not Allowed';
