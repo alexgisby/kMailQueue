@@ -12,6 +12,22 @@ class Kohana_Model_MailQueue extends ORM
 {
 	protected $_table_name = 'mailqueue';
 	
+	protected $_rules = array(
+		'recipient_email'	=> array(
+			'not_empty'		=> null,
+			'email'			=> null,
+		),
+		
+		'sender_email'	=> array(
+			'not_empty'		=> null,
+			'email'			=> null,
+		),
+		
+		'body'			=> array(
+			'not_empty'		=> null,	
+		),
+	);
+	
 	
 	/**
 	 * Adds an email to the Queue
@@ -52,7 +68,25 @@ class Kohana_Model_MailQueue extends ORM
 		$item->body 	= $body;
 		$item->priority	= $priority;
 		$item->created 	= date('Y-m-d H:i:s', time());
-		$item->save();
-		return $item;
+		
+		if($item->check())
+		{
+			$item->save();
+			return $item;
+		}
+		else
+		{
+			$ex = new Exception_MailQueue('Failed Validation');
+			if(version_compare(kohana::VERSION, '3.1', '>='))
+			{
+				$ex->set_validate_array($item->validation());
+			}
+			else
+			{
+				$ex->set_validate_array($item->validate());
+			}
+			
+			throw $ex;
+		}
 	}
 }

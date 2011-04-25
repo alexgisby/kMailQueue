@@ -12,6 +12,8 @@ class Kohana_Controller_MailQueue extends Controller
 {
 	public function action_test()
 	{
+		echo '<h1>Basic Email</h1>';
+		
 		MailQueue::add_to_queue(
 			array('alex@solution10.com', 'Alex'),
 			array('alex@solution10.com', 'Alex'),
@@ -31,6 +33,36 @@ class Kohana_Controller_MailQueue extends Controller
 		);
 		
 		echo '<p>Added Mail 2</p>';
+		
+		echo '<h1>Validation Checks</h1>';
+		
+		try
+		{
+			MailQueue::add_to_queue(
+				array('pants_recipient', 'Mr Pants'),
+				array('pants_sender', 'Mrs Pants'),
+				'Pants array',
+				'<p>Welcome to the MailQueue App</p>'
+			);
+		}
+		catch(Exception_MailQueue $e)
+		{
+			echo Kohana::debug($e->array->errors());
+		}
+		
+		try
+		{
+			MailQueue::add_to_queue(
+				'pants_recipient',
+				'pants_sender',
+				'Pants string',
+				'<p>Welcome to the MailQueue App</p>'
+			);
+		}
+		catch(Exception_MailQueue $e)
+		{
+			echo Kohana::debug($e->array->errors());
+		}
 		
 		exit('End Test');
 	}

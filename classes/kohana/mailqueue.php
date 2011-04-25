@@ -20,7 +20,7 @@ class Kohana_MailQueue
 	 * @param 	int 			Priority (1 is low, 1,000 is high etc)
 	 * @return 	bool
 	 */
-	public static function add_to_queue($recipient, $sender, $subject, $body, $priority)
+	public static function add_to_queue($recipient, $sender, $subject, $body, $priority = 1)
 	{
 		Model_MailQueue::add_to_queue($recipient, $sender, $subject, $body, $priority);
 		return true;
