@@ -28,6 +28,26 @@ class Kohana_Model_MailQueue extends ORM
 		),
 	);
 	
+	/**
+	 * Kohana 3.1.x rules hook. This is ignored by Kohana 3.0.x
+	 */
+	public function rules()
+	{
+		return array(
+			'recipient_email' => array(
+				array('not_empty'),
+				array('email'),
+			),
+			'sender_email' => array(
+				array('not_empty'),
+				array('email'),
+			),
+			'body' => array(
+				array('not_empty'),
+			),
+		);
+	}
+	
 	
 	/**
 	 * Adds an email to the Queue
@@ -69,25 +89,41 @@ class Kohana_Model_MailQueue extends ORM
 		$item->priority	= $priority;
 		$item->created 	= date('Y-m-d H:i:s', time());
 		
-		if($item->check())
+		if(version_compare(kohana::VERSION, '3.1', '>='))
 		{
-			$item->save();
-			return $item;
+			//
+			// 3.1.x workflow:
+			//
+			try
+			{
+				$item->save();
+			}
+			catch(ORM_Validation_Exception $e)
+			{
+				$ex = new Exception_MailQueue('Failed Validation');
+				$objects = $e->objects();
+				$ex->set_validate_array($objects['_object']);
+				throw $ex;
+			}
 		}
 		else
 		{
-			$ex = new Exception_MailQueue('Failed Validation');
-			if(version_compare(kohana::VERSION, '3.1', '>='))
+			//
+			// 3.0.x workflow:
+			//
+			if($item->check())
 			{
-				$ex->set_validate_array($item->validation());
+				$item->save();
 			}
 			else
 			{
+				$ex = new Exception_MailQueue('Failed Validation');
 				$ex->set_validate_array($item->validate());
+				throw $ex;
 			}
-			
-			throw $ex;
 		}
+		
+		return $item;
 	}
 	
 	
