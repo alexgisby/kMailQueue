@@ -30,13 +30,13 @@ class Kohana_MailQueue
 	/**
 	 * Send out a batch of emails. The number sent is dependant on config('mailqueue.batch_size')
 	 *
-	 * @return 	int 	The number of emails sent
+	 * @return 	array 	The number of emails sent and failed.
 	 */
 	public static function batch_send()
 	{
 		$config = kohana::config('mailqueue');
 		
-		$emails_sent = 0;
+		$stats = array('sent' => 0, 'failed' => 0);
 		
 		$emails = Model_MailQueue::find_batch($config->batch_size);
 		foreach($emails as $email)
@@ -56,14 +56,15 @@ class Kohana_MailQueue
 			if(email::send($recipient, $sender, $email->subject, $email->body, true))
 			{
 				$email->sent();
-				$emails_sent ++;
+				$stats['sent'] ++;
 			}
 			else
 			{
+				$stats['failed'] ++;
 				$email->failed();
 			}
 		}
 		
-		return $emails_sent;
+		return $stats;
 	}
 }

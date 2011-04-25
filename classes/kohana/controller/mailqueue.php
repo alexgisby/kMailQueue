@@ -15,8 +15,9 @@ class Kohana_Controller_MailQueue extends Controller
 	 */
 	public function action_batch()
 	{
-		MailQueue::batch_send();
-		return true;
+		$stats = MailQueue::batch_send();
+		echo 'Sent ' . $stats['sent'] . ' emails' . "\n";
+		echo 'Failed ' . $stats['failed'] . ' emails' . "\n";
 	}
 	
 	
