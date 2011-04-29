@@ -52,7 +52,7 @@ class Kohana_MailQueue
 				$sender = array($email->sender_email, $email->sender_email);
 			}
 			
-			if(email::send($recipient, $sender, $email->subject, $email->body, true))
+			if(email::send($recipient, $sender, $email->subject, $email->body->body, true))
 			{
 				$email->sent();
 				$stats['sent'] ++;
