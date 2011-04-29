@@ -12,6 +12,13 @@ class Kohana_Model_MailQueue extends ORM
 {
 	protected $_table_name = 'mailqueue';
 	
+	protected $_has_one = array(
+		'body'	=> array(
+			'model'			=> 'MailQueue_Body',
+			'foreign_key'	=> 'queue_id',
+		),
+	);
+	
 	protected $_rules = array(
 		'recipient_email'	=> array(
 			'not_empty'		=> null,
@@ -21,10 +28,6 @@ class Kohana_Model_MailQueue extends ORM
 		'sender_email'	=> array(
 			'not_empty'		=> null,
 			'email'			=> null,
-		),
-		
-		'body'			=> array(
-			'not_empty'		=> null,	
 		),
 	);
 	
