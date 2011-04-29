@@ -45,9 +45,6 @@ class Kohana_Model_MailQueue extends ORM
 				array('not_empty'),
 				array('email'),
 			),
-			'body' => array(
-				array('not_empty'),
-			),
 		);
 	}
 	
@@ -88,7 +85,6 @@ class Kohana_Model_MailQueue extends ORM
 		}
 		
 		$item->subject 	= $subject;
-		$item->body 	= $body;
 		$item->priority	= $priority;
 		$item->created 	= date('Y-m-d H:i:s', time());
 		
@@ -124,6 +120,20 @@ class Kohana_Model_MailQueue extends ORM
 				$ex->set_validate_array($item->validate());
 				throw $ex;
 			}
+		}
+		
+		
+		// Try and now add the body to the email. The Model_MailQueue_Body always throws exceptions, so we can do the same for either Kohana version.
+		try
+		{
+			$body_model = Model_MailQueue_Body::add_email_body($item, $body);
+		}
+		catch(ORM_Validation_Exception $e)
+		{
+			// Slightly different this one, seeing as how the body failed to save, we need to delete the header
+			// row to prevent orphans. We can then fling the Exception upward.
+			$item->delete();
+			throw $e;
 		}
 		
 		return $item;
