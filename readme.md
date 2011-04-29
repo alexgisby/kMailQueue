@@ -38,6 +38,8 @@ Make sure the /mailqueue route isn't obscured by any of yours.
 
 Check the schema.sql file in the repo. Feel free to change indexes, engine etc.
 
+kMailQueue contains two tables, one for the header information (sender, recipient, priority etc). The other contains the body of the emails. This split allows for better performance when querying the header table.
+
 ## Usage
 
 ### Adding to the Queue
@@ -45,11 +47,11 @@ Check the schema.sql file in the repo. Feel free to change indexes, engine etc.
 To add an email to the queue, simply do;
 
 	MailQueue::add_to_queue(
-		array('alex@example.com', 'Alex'),
-		array('alex@example.com', 'Alex'),
-		'I was sent via a MailQueue!',
-		'<p>Welcome to the work of MailQueue!</p>',
-		10
+		array('alex@example.com', 'Alex'),				// Recipient of the email
+		array('alex@example.com', 'Alex'),				// Sender of the email
+		'I was sent via a MailQueue!',					// Subject line
+		'<p>Welcome to the work of MailQueue!</p>',		// Body of the email
+		10												// Priority. 1 is low priority, 10 is higher. Can be any UNSIGNED INT.
 	);
 	
 ### Sending the Queue
@@ -78,7 +80,7 @@ Check out the API browser in the Userguide module. The class is fully documented
 
 ## Known Issues
 
-- It makes sense to split off the email body into a separate table to improve performance. Will do this soon.
+- Nothing so far. Found an issue? [Report It!](https://github.com/alexgisby/kMailQueue/issues)
 
 ## Acknowledgements;
 
