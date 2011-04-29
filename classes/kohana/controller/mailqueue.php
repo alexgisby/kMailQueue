@@ -56,7 +56,7 @@ class Kohana_Controller_MailQueue extends Controller
 	{
 		echo '<h1>Basic Email</h1>';
 
-		MailQueue::add_to_queue(
+		$first = MailQueue::add_to_queue(
 			array('alex@example.com', 'Alex'),
 			array('alex@example.com', 'Alex'),
 			'Mail with both sender and recipient as array',
@@ -124,6 +124,13 @@ class Kohana_Controller_MailQueue extends Controller
 		{
 			echo '<pre>' . print_r($e->array->errors(), true) . '</pre>';
 		}
+				
+		echo '<h1>Content Test</h1>';
+		echo '<h2>First Email</h2>';
+		echo 'To: ' . $first->recipient_name . ' &lt;' . $first->recipient_email . '&gt;<br />';
+		echo 'From: ' . $first->sender_name . ' &lt;' . $first->sender_email . '&gt;<br />';
+		echo 'Subject: ' . $first->subject . '<br /><br />';
+		echo $first->body->body;
 
 		exit('End Test');
 	}
