@@ -128,7 +128,7 @@ class Kohana_Model_MailQueue extends ORM
 		{
 			$body_model = Model_MailQueue_Body::add_email_body($item, $body);
 		}
-		catch(ORM_Validation_Exception $e)
+		catch(Exception_MailQueue $e)
 		{
 			// Slightly different this one, seeing as how the body failed to save, we need to delete the header
 			// row to prevent orphans. We can then fling the Exception upward.

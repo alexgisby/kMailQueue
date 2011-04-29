@@ -109,6 +109,21 @@ class Kohana_Controller_MailQueue extends Controller
 		{
 			echo '<pre>' . print_r($e->array->errors(), true) . '</pre>';
 		}
+		
+		
+		try
+		{
+			MailQueue::add_to_queue(
+				'alex@example.com',
+				'alex@example.com',
+				'Testing No Body Validation',
+				''
+			);
+		}
+		catch(Exception_MailQueue $e)
+		{
+			echo '<pre>' . print_r($e->array->errors(), true) . '</pre>';
+		}
 
 		exit('End Test');
 	}
