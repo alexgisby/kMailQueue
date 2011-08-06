@@ -4,9 +4,8 @@ Simple Mail Queue for Kohana 3.x which utilises a database table, connected with
 
 ## Requirements
 
-- Kohana 3.x (3.0 or 3.1)
+- Kohana 3.x (3.0, 3.1 or 3.2)
 - Kohana ORM
-- [Kohana Email extension](https://github.com/banks/kohana-email)
 
 ## Features
 

@@ -33,7 +33,14 @@ class Kohana_MailQueue
 	 */
 	public static function batch_send()
 	{
-		$config = kohana::config('mailqueue');
+		if(version_compare(kohana::VERSION, '3.2.0', '>='))
+		{
+			$config = kohana::$config->load('mailqueue');
+		}
+		else
+		{
+			$config = kohana::config('mailqueue');
+		}
 		
 		$stats = array('sent' => 0, 'failed' => 0);
 		
@@ -43,16 +50,20 @@ class Kohana_MailQueue
 			$recipient = $email->recipient_email;
 			if($email->recipient_name != null)
 			{
-				$recipient = array($email->recipient_email, $email->recipient_name);
+				$recipient = $email->recipient_name . ' <' . $email->recipient_email . '>';
 			}
 			
 			$sender = $email->sender_email;
 			if($email->sender_name != null)
 			{
-				$sender = array($email->sender_email, $email->sender_email);
+				$sender = $email->sender_name . ' <' . $email->sender_email . '>';
 			}
 			
-			if(email::send($recipient, $sender, $email->subject, $email->body->body, true))
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+			$headers .= 'From: ' . $sender . "\r\n";
+			
+			if(mail($recipient, $email->subject, $email->body->body, $headers))
 			{
 				$email->sent();
 				$stats['sent'] ++;
